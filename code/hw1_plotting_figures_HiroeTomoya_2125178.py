@@ -30,7 +30,8 @@ fig_box.savefig('boxplot.png')
 # ヒストグラムのプロット
 fig_hist = plt.figure()
 ax_hist = fig_hist.add_subplot(111)
-sns.histplot(data=trucks, x="price", bins=5, ax=ax_hist)
+sns.histplot(data=trucks, x="price", bins=5,
+             binrange=(0, 25000), ax=ax_hist)
 ax_hist.set_ylabel("frequency")
 fig_hist.savefig('histogram.png')
 
