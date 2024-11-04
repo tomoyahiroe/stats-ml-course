@@ -1,3 +1,31 @@
+"""requirements.txt
+
+certifi==2024.8.30
+charset-normalizer==3.4.0
+contourpy==1.3.0
+cycler==0.12.1
+fonttools==4.54.1
+idna==3.10
+kagglehub==0.3.3
+kiwisolver==1.4.7
+matplotlib==3.9.2
+numpy==2.1.2
+packaging==24.1
+pandas==2.2.3
+pillow==11.0.0
+pyparsing==3.2.0
+python-dateutil==2.9.0.post0
+pytz==2024.2
+requests==2.32.3
+seaborn==0.13.2
+six==1.16.0
+tqdm==4.66.6
+tzdata==2024.2
+urllib3==2.2.3
+
+"""
+
+
 import requests
 import io
 import pandas as pd
@@ -68,7 +96,7 @@ selected_language = ["Go", "Rust", "C++"]
 repositories = repositories.loc[repositories["primary_language"].isin(
     selected_language)]
 repositories["created_at"] = pd.to_datetime(repositories["created_at"])
-
+print("data rows: ", len(repositories.index))
 
 plt.style.use('ggplot')
 fig_github = plt.figure(figsize=(18.5, 10.5))  # 描画範囲の作成
@@ -78,10 +106,14 @@ sns.boxplot(data=repositories, x="primary_language",
             y="stars_count", ax=ax_box_github, showfliers=False)
 
 ax_hist_github = fig_github.add_subplot(223)  # ヒストグラム
-sns.histplot(data=repositories, x="stars_count", bins=10000, ax=ax_hist_github)
+ax_hist_github.set_xscale('log')
+sns.histplot(data=repositories, x="stars_count", bins=80,
+             ax=ax_hist_github, hue="primary_language")
 ax_hist_github.set_ylabel("frequency")
 
 ax_scatter_github = fig_github.add_subplot(224)  # 散布図のプロット
-sns.scatterplot(data=repositories, x="created_at",
+ax_scatter_github.set_yscale('log')
+ax_scatter_github.set_xscale('log')
+sns.scatterplot(data=repositories, x="pull_requests",
                 y="stars_count", hue="primary_language", ax=ax_scatter_github)
 fig_github.savefig("github.png")
