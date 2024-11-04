@@ -71,7 +71,7 @@ repositories["created_at"] = pd.to_datetime(repositories["created_at"])
 
 
 plt.style.use('ggplot')
-fig_github = plt.figure()  # 描画範囲の作成
+fig_github = plt.figure(figsize=(18.5, 10.5))  # 描画範囲の作成
 
 ax_box_github = fig_github.add_subplot(222)  # 箱ひげ図のプロット
 sns.boxplot(data=repositories, x="primary_language",
