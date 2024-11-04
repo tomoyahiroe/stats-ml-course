@@ -57,3 +57,31 @@ sns.histplot(data=browser, x="spend", bins=12)
 ax_browser.set_xlabel("total online spend")
 ax_browser.set_ylabel("density")
 fig_browser.savefig('density.png')
+
+
+# 課題３
+path = "/Users/hiroetomokana/.cache/kagglehub/datasets/nikhil25803/github-dataset/versions/2"
+
+repositories = pd.read_csv(f"{path}/repository_data.csv")
+
+selected_language = ["Go", "Rust", "C++"]
+repositories = repositories.loc[repositories["primary_language"].isin(
+    selected_language)]
+repositories["created_at"] = pd.to_datetime(repositories["created_at"])
+
+
+plt.style.use('ggplot')
+fig_github = plt.figure()  # 描画範囲の作成
+
+ax_box_github = fig_github.add_subplot(222)  # 箱ひげ図のプロット
+sns.boxplot(data=repositories, x="primary_language",
+            y="stars_count", ax=ax_box_github, showfliers=False)
+
+ax_hist_github = fig_github.add_subplot(223)  # ヒストグラム
+sns.histplot(data=repositories, x="stars_count", bins=10000, ax=ax_hist_github)
+ax_hist_github.set_ylabel("frequency")
+
+ax_scatter_github = fig_github.add_subplot(224)  # 散布図のプロット
+sns.scatterplot(data=repositories, x="created_at",
+                y="stars_count", hue="primary_language", ax=ax_scatter_github)
+fig_github.savefig("github.png")
